@@ -14,5 +14,8 @@
     <Setting Name="AlwaysOnTop" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="LastType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Pomodoro</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

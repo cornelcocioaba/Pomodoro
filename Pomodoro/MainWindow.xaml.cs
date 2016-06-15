@@ -61,6 +61,9 @@ namespace Pomodoro
             alwaysOnTop = Properties.Settings.Default.AlwaysOnTop;
 
             Topmost = alwaysOnTop;
+            TimeType lastType = (TimeType)Enum.Parse(TimeType.GetType(), Properties.Settings.Default.LastType);
+            SetType(lastType);
+
             ResetTimer();
         }
 
@@ -93,6 +96,15 @@ namespace Pomodoro
             else
             {
                 StopTimer();
+
+                if (TimeType == TimeType.Pomodoro)
+                {
+                    SetType(TimeType.ShortBreak);
+                }
+                else
+                {
+                    SetType(TimeType.Pomodoro);
+                }
             }
         }
 
@@ -122,17 +134,26 @@ namespace Pomodoro
             switch (type)
             {
                 case TimeType.Pomodoro:
-                    Background = Brushes.Red;
-                    break;
-                case TimeType.ShortBreak:
-                    Background = Brushes.Green;
+                    Background = this.FindResource("Background.Pomodoro") as SolidColorBrush;
+                    btnStartStop.Foreground = this.FindResource("Foreground.Pomodoro") as SolidColorBrush;
+                    btnStartStop.Style = this.FindResource("PomodoroButtonStyle") as Style;
                     break;
                 case TimeType.LongBreak:
-                    Background = Brushes.Blue;
+                case TimeType.ShortBreak:
+                    Background = this.FindResource("Background.Break") as SolidColorBrush;
+                    btnStartStop.Foreground = this.FindResource("Foreground.Break") as SolidColorBrush;
+                    btnStartStop.Style = this.FindResource("BreakButtonStyle") as Style;
                     break;
             }
 
             ResetTimer();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.LastType = TimeType.ToString() ?? "Pomodoro";
+
+            Properties.Settings.Default.Save();
         }
     }
 }

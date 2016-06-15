@@ -3,7 +3,153 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Pomodoro"
              StartupUri="MainWindow.xaml">
-    <Application.Resources>
-         
-    </Application.Resources>
+  <Application.Resources>
+    <!--  Background  -->
+    <SolidColorBrush x:Key="Background.Pomodoro" Color="#FFF44235" />
+    <SolidColorBrush x:Key="Background.Break" Color="#FF1CB827" />
+    <!--  Foreground  -->
+    <SolidColorBrush x:Key="Foreground.Pomodoro" Color="#FFFFDBDB" />
+    <SolidColorBrush x:Key="Foreground.Break" Color="White" />
+    <!--  Pomodoro colors  -->
+    <SolidColorBrush x:Key="Button.Static.Background.Pomodoro" Color="#FFB42424" />
+    <SolidColorBrush x:Key="Button.Static.Border.Pomodoro" Color="#FFFF1616" />
+    <SolidColorBrush x:Key="Button.MouseOver.Background.Pomodoro" Color="#FFE75555" />
+    <SolidColorBrush x:Key="Button.MouseOver.Border.Pomodoro" Color="#FFE75555" />
+    <SolidColorBrush x:Key="Button.Pressed.Background.Pomodoro" Color="#FF570A0A" />
+    <SolidColorBrush x:Key="Button.Pressed.Border.Pomodoro" Color="#FF571616" />
+    <SolidColorBrush x:Key="Button.Disabled.Background.Pomodoro" Color="#FFFFB9B9" />
+    <SolidColorBrush x:Key="Button.Disabled.Border.Pomodoro" Color="#FFFD8383" />
+    <SolidColorBrush x:Key="Button.Disabled.Foreground.Pomodoro" Color="#FF686868" />
+    <!--  Break colors  -->
+    <SolidColorBrush x:Key="Button.Static.Background.Break" Color="#FF029302" />
+    <SolidColorBrush x:Key="Button.Static.Border.Break" Color="#FF16FF16" />
+    <SolidColorBrush x:Key="Button.MouseOver.Background.Break" Color="#FF55E755" />
+    <SolidColorBrush x:Key="Button.MouseOver.Border.Break" Color="#FF55E755" />
+    <SolidColorBrush x:Key="Button.Pressed.Background.Break" Color="#FF0A570A" />
+    <SolidColorBrush x:Key="Button.Pressed.Border.Break" Color="#FF165716" />
+    <SolidColorBrush x:Key="Button.Disabled.Background.Break" Color="#FFB9FFB9" />
+    <SolidColorBrush x:Key="Button.Disabled.Border.Break" Color="#FF83FD83" />
+    <SolidColorBrush x:Key="Button.Disabled.Foreground.Break" Color="#FF686868" />
+    <Style x:Key="FocusVisual">
+      <Setter Property="Control.Template">
+        <Setter.Value>
+          <ControlTemplate>
+            <Rectangle Margin="2"
+                       SnapsToDevicePixels="true"
+                       Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                       StrokeDashArray="1 2"
+                       StrokeThickness="1" />
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="PomodoroButtonStyle" TargetType="{x:Type Button}">
+      <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+      <Setter Property="Background" Value="{StaticResource Button.Static.Background.Pomodoro}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="Padding" Value="4" />
+      <Setter Property="Button.Effect">
+        <Setter.Value>
+          <DropShadowEffect BlurRadius="10"
+                            Direction="-90"
+                            Opacity="1"
+                            ShadowDepth="5"
+                            Color="Black" />
+        </Setter.Value>
+      </Setter>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Grid SnapsToDevicePixels="true">
+              <Rectangle x:Name="BackgroundVisual" Fill="{TemplateBinding Background}" />
+              <Rectangle x:Name="PressedVisual"
+                         Fill="{DynamicResource Button.Pressed.Background.Pomodoro}"
+                         Opacity="0" />
+              <Rectangle x:Name="DisabledVisual"
+                         Fill="{DynamicResource Button.Disabled.Background.Pomodoro}"
+                         Opacity="0" />
+              <ContentPresenter x:Name="contentPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Focusable="False"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsDefaulted" Value="true" />
+              <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="BackgroundVisual" Property="Opacity" Value="0.8" />
+              </Trigger>
+              <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="PressedVisual" Property="Opacity" Value="1" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="false">
+                <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground.Pomodoro}" />
+                <Setter TargetName="DisabledVisual" Property="Opacity" Value="1" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style x:Key="BreakButtonStyle" TargetType="{x:Type Button}">
+      <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+      <Setter Property="Background" Value="{StaticResource Button.Static.Background.Break}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="Padding" Value="4" />
+      <Setter Property="Button.Effect">
+        <Setter.Value>
+          <DropShadowEffect BlurRadius="10"
+                            Direction="-90"
+                            Opacity="1"
+                            ShadowDepth="5"
+                            Color="Black" />
+        </Setter.Value>
+      </Setter>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Grid SnapsToDevicePixels="true">
+              <Rectangle x:Name="BackgroundVisual" Fill="{TemplateBinding Background}" />
+              <Rectangle x:Name="PressedVisual"
+                         Fill="{DynamicResource Button.Pressed.Background.Break}"
+                         Opacity="0" />
+              <Rectangle x:Name="DisabledVisual"
+                         Fill="{DynamicResource Button.Disabled.Background.Break}"
+                         Opacity="0" />
+              <ContentPresenter x:Name="contentPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Focusable="False"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsDefaulted" Value="true" />
+              <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="BackgroundVisual" Property="Opacity" Value="0.8" />
+              </Trigger>
+              <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="PressedVisual" Property="Opacity" Value="1" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="false">
+                <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground.Break}" />
+                <Setter TargetName="DisabledVisual" Property="Opacity" Value="1" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+  </Application.Resources>
 </Application>

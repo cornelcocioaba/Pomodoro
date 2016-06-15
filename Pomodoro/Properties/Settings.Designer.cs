@@ -70,5 +70,17 @@ namespace Pomodoro.Properties {
                 this["AlwaysOnTop"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Pomodoro")]
+        public string LastType {
+            get {
+                return ((string)(this["LastType"]));
+            }
+            set {
+                this["LastType"] = value;
+            }
+        }
     }
 }
